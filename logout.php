@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 
 $link = $_SERVER['HTTP_REFERER'];
