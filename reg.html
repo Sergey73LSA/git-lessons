@@ -1,0 +1,121 @@
+<html>
+<head>
+	<title>Регистрация</title>
+	<meta content="Регистрация" charset="utf-8">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+	<?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
+		<?php if(isset($user_is_created)): ?>
+			<div class="container">
+				<div class="alert p-3 mb-2 bg-success text-white" role="alert">
+	    			Пользователь зарегестрирован успешно!
+				</div>
+			</div>
+		<?php else: ?>
+			<div class="container">
+	 		<div class="alert p-3 mb-2 bg-danger text-white" role="alert">
+	    			Пользователь не зарегестрирован!
+				</div> 
+			</div>
+		<?php endif; ?>
+	<?php endif; ?>
+
+        <form action="reg.php" enctype="multipart/form-data" method="post" name="connect_with_us">
+            <div class="big-banner">
+                <div class="card" style="width: 40rem;">
+                    <div class="card-body">
+                        <p class="text-center h3">Регистрация</p>
+                        <br />
+                    	<div class="form-row">
+
+                    	    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                $isvalid = isset($errors['first_name']) ? 'is-invalid' : 'is-valid';
+                                $feedback = isset($errors['first_name']) ? '<div class="invalid-feedback">Введите пожалуйста Имя</div>' : '<div class="valid-feedback">Имя введено успешно!</div>';
+                                $value = !empty(trim($_REQUEST['first_name'])) ? trim($_REQUEST['first_name']) : '';
+                            } ?>
+
+                            <div class="form-group col-md-6">
+                                <label for="first_name">Имя</label>
+                                <input type="text" class="form-control <?=$isvalid; ?>" id="first_name" name="first_name" value="<?=$value; ?>" placeholder="Иван">
+                                <?=$feedback; ?>
+                            </div>
+
+                            <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                $isvalid = !empty($_REQUEST['last_name']) ? 'is-valid' : '';
+                                $feedback = !empty($_REQUEST['last_name']) ? '<div class="valid-feedback">Фамилия введена успешно!</div>' : '';
+                                $value = !empty(trim($_REQUEST['last_name'])) ? trim($_REQUEST['last_name']) : '';
+                            } ?>
+
+                            <div class="form-group col-md-6">
+                                <label for="last_name">Фамилия</label>
+                                <input type="text" class="form-control <?=$isvalid; ?>" id="last_name" name="last_name" value="<?=$value; ?>" placeholder="Иванов">
+                                <?=$feedback; ?>
+                            </div>
+                        </div>
+                        <div class="form-row">
+
+                    	    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                $isvalid = isset($errors['email']) ? 'is-invalid' : 'is-valid';
+                                $feedback = isset($errors['email']) ? '<div class="invalid-feedback">' . $errors['email'] . '</div>' : '<div class="valid-feedback">Email введен успешно!</div>';
+                                $value = !empty(trim($_REQUEST['email'])) ? trim($_REQUEST['email']) : '';
+                            } ?>
+
+                            <div class="form-group col-md-6">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control <?=$isvalid; ?>" id="email" name="email"  value="<?=$value; ?>" placeholder="Введите свою почту">
+                                <?=$feedback; ?>
+                            </div>
+
+                            <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                $isvalid = isset($errors['password']) ? 'is-invalid' : 'is-valid';
+                                $feedback = isset($errors['password']) ? '<div class="invalid-feedback">' . $errors['password'] . '</div>' : '<div class="valid-feedback">Email введен успешно!</div>';
+                                $value = !empty(trim($_REQUEST['password'])) ? trim($_REQUEST['password']) : '';
+                            } ?>
+
+                            <div class="form-group col-md-6">
+                                <label for="last_name">Пароль</label>
+                                <input type="password" class="form-control <?=$isvalid; ?>" id="password" name="password" value="<?=$value; ?>">
+                                <?=$feedback; ?>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <legend class="col-form-label col-sm-2 pt-0">Ваш пол</legend>
+                            <div class="form-check-inline">
+
+                                <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                    if (empty($_REQUEST['gender'])) {
+                                        $m = $f = '';
+                                    } elseif ($_REQUEST['gender'] == 'm') {
+                                        $m = 'checked';
+                                        $f = '';
+                                    } else {
+                                        $f = 'checked';
+                                        $m = '';
+                                    }
+                                } ?>
+
+                                <input class="form-check-input" type="radio" id="male" name="gender" value="m" <?=$m; ?>>
+                                <label class="form-check-label" for="male">Мужской</label>
+                            </div>
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="radio" id="female" name="gender" value="f" <?=$f; ?>>
+                                <label class="form-check-label" for="female">Женский</label>
+                            </div>
+                        </div>
+                        <br />
+						<input type="submit" class="btn btn-success" value="Зарегистрироваться">
+						<a class="btn btn-primary" href="reg.php?mode=auth">Авторизация</a>
+						<hr>
+						<a class="btn btn-primary" href="index.php">Форма "Связаться с нами"</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
