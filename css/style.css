@@ -1,0 +1,13 @@
+.big-banner{
+    background-image: url('../img/123.jpg');
+    background-size: 100%;
+}
+
+.card {
+	width: 800px;
+	margin: 30px auto;
+	padding: 20px;
+	background-color: #fff;
+	box-shadow: 0 5px 10px #ccc;
+	border-radius: 10px;
+}
