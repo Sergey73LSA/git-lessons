@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cвязаться с нами</title>
+        <meta name="description" content="Cвязаться с нами" charset="utf-8">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+
+        <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
+            <?php if(isset($form_sent)): ?>
+                <div class="container">
+                    <div class="alert p-3 mb-2 bg-success text-white" role="alert">
+                        Спасибо за обратную связь!
+                    </div>
+                </div>
+            <?php elseif (isset($errors)): ?>
+                <div class="container">
+                <div class="alert p-3 mb-2 bg-danger text-white" role="alert">
+                        Форма не отправлена!
+                    </div> 
+                </div>
+            <?php endif; ?>
+        <?php elseif (isset($_SESSION['user'])): ?>
+            <?php
+                if(isset($_COOKIE['Alert'])) {
+                    echo '<div class="container">
+                        <div class="alert p-3 mb-2 bg-success text-white" role="alert">
+                                Вход выполнен!
+                            </div>
+                        </div>';
+                    setcookie('Alert',1,time()+0);
+                }
+            ?>
+        <?php endif; ?>
+
+        <form action="index.php" enctype="multipart/form-data" method="post" name="connect_with_us">
+            <div class="big-banner">
+                <div class="card">
+                    <div class="card-body">
+                                <p class="text-center h3">Связаться с нами</p>
+                                <br />
+
+                                <div class="form-row">
+
+                                    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                        $isvalid = isset($errors['first_name']) ? 'is-invalid' : 'is-valid';
+                                        $feedback = isset($errors['first_name']) ? '<div class="invalid-feedback">Введите пожалуйста Имя</div>' : '<div class="valid-feedback">Имя введено успешно!</div>';
+                                        $value = !empty(trim($_REQUEST['first_name'])) ? trim($_REQUEST['first_name']) : '';
+                                    } ?>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="first_name">Имя</label>
+                                        <input type="text" class="form-control <?=$isvalid; ?>" id="first_name" name="first_name" value="<?=$value; ?>" placeholder="Иван">
+                                        <?=$feedback; ?>
+                                    </div>
+
+                                    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                        $isvalid = !empty($_REQUEST['last_name']) ? 'is-valid' : '';
+                                        $feedback = !empty($_REQUEST['last_name']) ? '<div class="valid-feedback">Фамилия введена успешно!</div>' : '';
+                                        $value = !empty(trim($_REQUEST['last_name'])) ? trim($_REQUEST['last_name']) : '';
+                                    } ?>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="last_name">Фамилия</label>
+                                        <input type="text" class="form-control <?=$isvalid; ?>" id="last_name" name="last_name" value="<?=$value; ?>" placeholder="Иванов">
+                                        <?=$feedback; ?>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+
+                                        <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                            $isvalid = isset($errors['email']) ? 'is-invalid' : 'is-valid';
+                                            $feedback = isset($errors['email']) ? '<div class="invalid-feedback">' . $errors['email'] . '</div>' : '<div class="valid-feedback">Email введен успешно!</div>';
+                                            $value = !empty(trim($_REQUEST['email'])) ? trim($_REQUEST['email']) : '';
+                                        } ?>
+
+                                        <label for="email">Email</label>
+                                        <input type="text" class="form-control <?=$isvalid; ?>" id="email" name="email"  value="<?=$value; ?>" placeholder="Введите свою почту">
+                                        <?=$feedback; ?>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <legend class="col-form-label col-sm-2 pt-0">Ваш пол</legend>
+                                    <div class="form-check-inline">
+
+                                        <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                            if (empty($_REQUEST['gender'])) {
+                                                $m = $f = '';
+                                            } elseif ($_REQUEST['gender'] == 'm') {
+                                                $m = 'checked';
+                                                $f = '';
+                                            } else {
+                                                $f = 'checked';
+                                                $m = '';
+                                            }
+                                        } ?>
+
+                                        <input class="form-check-input" type="radio" id="male" name="gender" value="m" <?=$m; ?>>
+                                        <label class="form-check-label" for="male">Мужской</label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <input class="form-check-input" type="radio" id="female" name="gender" value="f" <?=$f; ?>>
+                                        <label class="form-check-label" for="female">Женский</label>
+                                    </div>
+                                </div>
+                                <label for="apply">Вид обращения:</label>
+
+                                        <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                            if (empty($_REQUEST['apply'])) {
+                                                $q = $c = $s = $o ='';
+                                            } elseif ($_REQUEST['apply'] == 'q') {
+                                                $q = 'selected';
+                                                $c = $s = $o ='';
+                                            } elseif ($_REQUEST['apply'] == 'c') {
+                                                $c = 'selected';
+                                                $q = $s = $o ='';
+                                            } elseif ($_REQUEST['apply'] == 's') {
+                                                $s = 'selected';
+                                                $q = $c = $o ='';
+                                            } else {
+                                                $o = 'selected';
+                                                $q = $c = $s ='';
+                                            }
+                                        } ?>
+
+                                    <select name="apply" id="apply">
+                                        <option id="question" name="question" value="q" <?=$q; ?>>Вопрос</option>
+                                        <option id="complaint" name="complaint" value="c" <?=$c; ?>>Жалоба</option>
+                                        <option id="suggest" name="suggest" value="s" <?=$s; ?>>Предложение</option>
+                                        <option id="question" name="question" value="o" <?=$o; ?>>Другое</option>
+                                    </select>
+                                <div class="form-group">
+
+                                    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                        $isvalid = isset($errors['text']) ? 'is-invalid' : 'is-valid';
+                                        $feedback = isset($errors['text']) ? '<div class="invalid-feedback">' . $errors['text'] . '</div>' : '<div class="valid-feedback">Текст введен успешно!</div>';
+                                    } ?>
+
+                                    <label for="exampleFormControlTextarea1">Текст обращения</label>
+                                    <textarea class="form-control <?=$isvalid; ?>" name="text" placeholder="Введите текст обращения" id="text" rows="3"></textarea>
+                                    <?=$feedback; ?>
+                                </div>
+
+                                <div class="form-group">
+
+                                    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                        if (!empty($errors['picters'])) {
+                                            $isvalid = 'is-invalid';
+                                            $feedback = '<div class="invalid-feedback">Загрузите изображение в формате jpeg, pjpeg, png, tiff, webp</div>';
+                                        } elseif (empty($file_link)) {
+                                            $isvalid = '';
+                                            $feedback = '<p><small >(поддерживаемые форматы jpeg, pjpeg, png, tiff, webp)</small></p>';
+                                        } else {
+                                            $isvalid = 'is-valid';
+                                            $feedback = '<div class="valid-feedback">Файл загружен успешно!</div>';
+                                        }
+                                    } else {
+                                        $value = '<p><small >(поддерживаемые форматы jpeg, pjpeg, png, tiff, webp)</small></p>';
+                                    } ?>
+
+                                    <label for="file">Загрузите файл</label><br />
+                                    <input type="file" class="form-control <?=$isvalid; ?>" id="file" name="picters">
+                                        <?=$feedback; ?>
+                                </div>
+                                <div>
+
+                                    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                        $value = isset($_REQUEST['our_news']) ? '<input type="checkbox" id="our_news" name="our_news" value="yes" checked> Да' : '<input type="checkbox" id="our_news" name="our_news" value="yes"> Да';
+                                    } else {
+                                        $value = '<input type="checkbox" id="our_news" name="our_news" value="yes"> Да';
+                                    }?>
+
+                                    <label for="our_news"></label>Вы хотите получать последние новости?</label>
+                                    <?=$value; ?>
+                                </div>
+                                <br />
+                                <p>
+                                        <button class="btn btn-primary" type="button" disabled>Назад</button>
+                                        <a class="btn btn-primary" href="index.php">Сброс</a>
+
+                                        <!-- После отправки форма и вывода алертов обычная кнопка reset не работает, вышел таким путем -->
+                                        <!-- <input class="btn btn-primary" type="reset" value="Сброс"> -->
+
+                                        <input class="btn btn-primary" type="submit" value="Отправить"></br><hr>
+                                    <? if (isset($_SESSION['user'])): ?>
+                                        <a class="btn btn-primary" href="logout.php">Разлогиниться</a>
+                                        <a class="btn btn-success" href="index.php?mode=table">Таблица с обращениями</a>
+                                        <a class="btn btn-success" href="reg.php?mode=admin_panel">Таблица зарегестрированных пользователей</a>
+                                    <?php else: ?>
+                                        <a class="btn btn-success" href="reg.php">Регистрация</a>
+                                        <a class="btn btn-primary" href="reg.php?mode=auth">Авторизация</a>
+                                    <?php endif; ?>
+                                </p>
+                    </div>
+                </div>
+            </div>
+        </form>
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
