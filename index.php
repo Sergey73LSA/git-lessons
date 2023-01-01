@@ -78,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		('$first_name', '$last_name', '$email', '$gender', '$apply', '$text', '$file_link', '$our_news')
 		");
     // Отправка оповещения о новом обращении на почту
+    require 'config.php';
 	require 'PHPMailer/send.php';
 
 	require 'index.html';
