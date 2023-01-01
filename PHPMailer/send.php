@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\Exception;
 require_once 'src/Exception.php';
 require_once 'src/PHPMailer.php';
 require_once 'src/SMTP.php';
-
+require '../config.php'
 
 $last_id = mysqli_insert_id($mysqli);
 
@@ -18,16 +18,17 @@ $mail->isSMTP();
 $mail->SMTPAuth = true;
 $mail->SMTPDebug = 0;
 
-$mail->Host = 'ssl://smtp.yandex.ru';
-$mail->Port = 465;
-$mail->Username = 'Ваша почта';
-$mail->Password = 'Ваш пароль';
+// Настройки вашей почты
+$mail->Host = $host; // SMTP сервера вашей почты
+$mail->Port = $port;
+$mail->Username = $mymail; // Логин на почте
+$mail->Password = $pass; // Пароль на почте
 
 // От кого
-$mail->setFrom('Ваша почта', 'simtechTest');
+$mail->setFrom($mymail, $sendername);
 
 // Кому
-$mail->addAddress('Ваша почта', 'Имя');
+$mail->addAddress($mymail2);
 
 // Тема письма
 $mail->Subject = 'У Вас новое обращение №' . $last_id;
