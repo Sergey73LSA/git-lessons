@@ -1,18 +1,11 @@
 <?php
 
-	$servername = "localhost";
-	$username = "root";
-	$db_password = "1234qwer";
-	$db = "connect_with_us";
+session_start();
 
-	$mysqli = mysqli_connect($servername, $username, $db_password, $db);
-if (!$mysqli) {
-	die("Connection failed: " . mysqli_connect_error());
-}
+    require 'config.php';
+    require 'db_connect.php';
 
 	$mode = isset($_REQUEST['mode']) ? $_REQUEST['mode'] : false;
-
-session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
