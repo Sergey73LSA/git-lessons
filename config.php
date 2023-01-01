@@ -10,7 +10,7 @@
     $host = 'ssl://smtp.yandex.ru'; // SMTP сервера вашей почты
     $port = 465;
     $mymail = 'otverstie73@yandex.ru'; // Логин на почте
-    $pass = 'K9f7H5w3T1d'; // Пароль на почте
+    $pass = ''; // Пароль на почте
     $sendername = 'simtechTest'; // Имя отправителя
     $mymail2 = 'sergey73_91@mail.ru'; // Почта куда придет письмо
 
