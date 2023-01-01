@@ -186,7 +186,7 @@
                                         <!-- <input class="btn btn-primary" type="reset" value="Сброс"> -->
 
                                         <input class="btn btn-primary" type="submit" value="Отправить"></br><hr>
-                                    <? if (isset($_SESSION['user'])): ?>
+                                    <?php if (isset($_SESSION['user'])): ?>
                                         <a class="btn btn-primary" href="logout.php">Разлогиниться</a>
                                         <a class="btn btn-success" href="index.php?mode=table">Таблица с обращениями</a>
                                         <a class="btn btn-success" href="reg.php?mode=admin_panel">Таблица зарегестрированных пользователей</a>
